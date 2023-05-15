@@ -1,6 +1,8 @@
 (ns book-swap.model.user-test
   (:require [book-swap.model.user :as sut]
-            [clojure.test :as t]))
+            [clojure.test :as t]
+            [book-swap.hasher-interface :as hi]
+            [book-swap.hasher-mock :refer [HashMock]]))
 
 (t/deftest positive-test-validate-email
   (t/is (true? (sut/validate-email "john.doe@email.com")))
@@ -30,3 +32,8 @@
   (t/is (false? (sut/validate-password "1111111111")))
   (t/is (false? (sut/validate-password "aaaaAAAA1111111111111")))
   )
+
+(t/deftest positive-test-authenticate
+  (let [hasher (HashMock.)
+        password "aaaAAA123"]
+    (t/is (true? (sut/authenticate password {:hash (hi/hash-password hasher password) :salt ""} hasher)))))

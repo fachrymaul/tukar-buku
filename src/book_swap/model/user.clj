@@ -1,4 +1,5 @@
-(ns book-swap.model.user)
+(ns book-swap.model.user
+  (:require [book-swap.hasher-interface :as hi]))
 
 (defrecord User [id username email password])
 
@@ -15,7 +16,8 @@
 (defn validate-password [password]
   (not (nil? (re-matches #"^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,20}$" password))))
 
-(defn autehnticate [password] )
+(defn authenticate [password stored-password hasher]
+  (= (hi/hash-password hasher password) (:hash stored-password)))
 
 (defn generate-auth-token [user] )
 
