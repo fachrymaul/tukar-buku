@@ -16,8 +16,8 @@
 (defn validate-password [password]
   (not (nil? (re-matches #"^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,20}$" password))))
 
-(defn authenticate [password stored-password hasher]
-  (= (hi/hash-password hasher password) (:hash stored-password)))
+(defn authenticate [hasher password stored-password]
+  (hi/verify-password hasher password stored-password))
 
 (defn generate-auth-token [user] )
 

@@ -2,4 +2,4 @@
 
 (defprotocol Hasher
   (hash-password [self password])
-  (hash-verify-password [self password stored-password]))
+  (verify-password [self password stored-password]))
